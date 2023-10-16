@@ -1,15 +1,10 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { Toggle } from "@/components/ui/toggle"
 import { useState } from "react";
+import { Categories } from "./page";
 
-type CategoriesFilme = {
-    id: string,
-    value: string,
-}
-
-const categoriesFilme = [
+const categoriesFilme: Categories[] = [
     { id: "1", value: "Ação" },
     { id: "2", value: "Aventura" },
     { id: "3", value: "Animação" },
@@ -31,40 +26,65 @@ const categoriesFilme = [
 
 export default function Filmes() {
     const [category, setCategory] = useState<string[]>([]);
+    const [isDone, setIsDone] = useState(false);
 
     function selectedCategories(value: string) {
         if(!category.includes(value)) {
             setCategory(category => [...category, value])
+            document.getElementById(value)!.classList.remove('border-slate-200');
             document.getElementById(value)!.classList.add('border-red-500');
         } else {
             setCategory(prev => prev.filter(category => category !== value))
             document.getElementById(value)!.classList.remove('border-red-500');
+            document.getElementById(value)!.classList.add('border-slate-200');
         }
     }
 
+    async function handleSubmit() {
+        setIsDone(true)
+
+        const bodyReq = JSON.stringify({ category: category })
+
+        const res = await fetch('http://localhost:3000/api/filmes', {
+            method: 'POST',
+            body: bodyReq
+        })
+    }
+
     return <>
+    {!isDone ? 
         <div className='flex flex-col justify-center items-center gap-5'>
             <div>
                 <h1 className='font-bold text-3xl text-red-400'>Quais categorias de filmes você gostaria de ver hoje?</h1>
                 <p className='text-slate-500'>(Até 3 categorias)</p>
             </div>
-          <div className='grid grid-cols-3 gap-4'>
-            {categoriesFilme.map(option => {
-              return (
-                <Button variant="outline" className='flex flex-col justify-center items-center gap-3 bg-transparent' id={option.value} key={option.value} onClick={() => selectedCategories(option.value)}>
-                  <p className='text-lg text-slate-500'>{option.value}</p>
-                </Button>
-              )
-            })}
-          </div>
-          <div>
-            {category.length > 3 ? 
-            <></> 
-            : 
-            <Button variant="outline" className='flex flex-col justify-center items-center gap-3 bg-transparent'>
-                <p>Buscar</p>
-            </Button>}
-          </div>
+            <div className='grid grid-cols-3 gap-4'>
+                {categoriesFilme.map(option => {
+                return (
+                    <Button variant="outline" className='flex flex-col justify-center items-center gap-3 bg-transparent hover:bg-red-100' id={option.value} key={option.value} onClick={() => selectedCategories(option.value)}>
+                        <p className='text-lg text-slate-500'>{option.value}</p>
+                    </Button>
+                )
+                })}
+            </div>
+            <div>
+                {category.length > 3 || category.length === 0 ? 
+                <></> 
+                :
+                <div>
+
+                <form onSubmit={handleSubmit}>
+                    <Button type="submit" variant="ghost" className='flex justify-center items-center'>
+                        <p>Pronto</p>
+                    </Button>
+                </form>
+                </div>
+                }
+            </div>
         </div> 
+        : 
+        <div>
+            <p>Response...</p>
+        </div>}
     </>
 }

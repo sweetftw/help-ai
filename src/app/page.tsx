@@ -9,6 +9,11 @@ import Musicas from "./Musicas";
 import Jogos from "./Jogos";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
+export type Categories = {
+  id: string,
+  value: string,
+}
+
 const categoriesOptions = [
   { 
     icon: <Clapperboard className='w-36 h-36' strokeWidth={1.5}/>,
