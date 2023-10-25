@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
-import { Categories } from "./page";
+import { Categories } from "../page";
+import { useChat } from 'ai/react';
 
 const categoriesFilme: Categories[] = [
     { id: "1", value: "Ação" },
@@ -26,7 +27,10 @@ const categoriesFilme: Categories[] = [
 
 export default function Filmes() {
     const [category, setCategory] = useState<string[]>([]);
+    const [responseAi, setResponseAi] = useState<string>();
     const [isDone, setIsDone] = useState(false);
+
+    const { messages } = useChat();
 
     function selectedCategories(value: string) {
         if(!category.includes(value)) {
@@ -49,6 +53,8 @@ export default function Filmes() {
             method: 'POST',
             body: bodyReq
         })
+        const response = await res.json();
+        setResponseAi(response.data);
     }
 
     return <>
@@ -84,7 +90,7 @@ export default function Filmes() {
         </div> 
         : 
         <div>
-            <p>Response...</p>
+            <p>{responseAi}</p>
         </div>}
     </>
 }

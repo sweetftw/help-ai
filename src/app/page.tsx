@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Popcorn, Gamepad2, Music, Clapperboard, Bot, RotateCcw } from 'lucide-react';
 import { useState } from "react";
-import Filmes from "./Filmes";
+import Filmes from "./(filmes)/Filmes";
 import Series from "./Series";
 import Musicas from "./Musicas";
 import Jogos from "./Jogos";

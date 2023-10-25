@@ -5,17 +5,12 @@ export async function POST(req: Request) {
     const { category } = await req.json();
 
     const messageReq = scriptFilmes + category.toString()
-
-    console.log(messageReq)
     
     const res = await fetch('http://localhost:3000/api/chat', {
             method: 'POST',
             body: JSON.stringify({ messages: messageReq})
         })
+    const responseAI = await res.json()
 
-    const response = await res.json()
-    console.log(response)
-
-
-    return Response.json({ data: null })
+    return Response.json({ data: responseAI.data })
 }

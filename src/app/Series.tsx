@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
 import { Categories } from "./page";
+import { useChat } from 'ai/react';
 
 const categoriesSeries: Categories[] = [
     { id: "1", value: "Ação" },
@@ -23,6 +24,33 @@ const categoriesSeries: Categories[] = [
   ]
   
 
+  /* export default function Series() {
+    const { messages, input, handleInputChange, handleSubmit } = useChat({
+      api: '/api/chat',
+    });
+   
+    return (
+      <div>
+        <h1>Teste</h1>
+        <ul>
+          {messages.map((m, index) => (
+            <li key={index}>
+              {m.role === 'user' ? 'User: ' : 'AI: '}
+              {m.content}
+            </li>
+          ))}
+        </ul>
+   
+        <form onSubmit={handleSubmit}>
+          <label>
+            Say something...
+            <input value={input} onChange={handleInputChange} />
+          </label> 
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    );
+  } */
 
 
 export default function Series() {
@@ -88,4 +116,4 @@ export default function Series() {
             <p>Response...</p>
         </div>}
     </>
-}
+} 

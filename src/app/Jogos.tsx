@@ -21,10 +21,6 @@ const categoriesJogos: Categories[] = [
     { id: "14", value: "Mundo Aberto" },
     { id: "15", value: "Horror de Sobrevivência" }
   ]
-  
-  
-
-
 
 export default function Jogos() {
     const [category, setCategory] = useState<string[]>([]);
