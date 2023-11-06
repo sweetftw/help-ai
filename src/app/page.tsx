@@ -8,26 +8,26 @@ import Series from "./Series";
 import Musicas from "./Musicas";
 import Jogos from "./Jogos";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { CategoriesMenu } from "@/models/models";
 
-export type Categories = {
-  id: string,
-  value: string,
-}
-
-const categoriesOptions = [
+const categoriesOptions: CategoriesMenu[] = [
   { 
+    id: "1",
     icon: <Clapperboard className='w-36 h-36' strokeWidth={1.5}/>,
     value: 'Filmes'
   },
   { 
+    id: "2",
     icon: <Popcorn className='w-36 h-36' strokeWidth={1.5}/>,
     value: 'Series'
   },
   { 
+    id: "3",
     icon: <Music className='w-36 h-36' strokeWidth={1.5}/>,
     value: 'Musicas'
   },
   { 
+    id: "4",
     icon: <Gamepad2 className='w-36 h-36' strokeWidth={1.5}/>,
     value: 'Jogos'
   }
@@ -70,7 +70,7 @@ export default function Home() {
           <div className='flex justify-start items-center gap-4'>
             {categoriesOptions.map(option => {
               return (
-                <Button variant="outline" className='w-60 h-60 flex flex-col justify-center items-center gap-3' key={option.value} onClick={() => setCategory(option.value)}>
+                <Button variant="outline" className='w-60 h-60 flex flex-col justify-center items-center gap-3' key={option.id} onClick={() => setCategory(option.value)}>
                   {option.icon}
                   <h1 className='text-lg text-slate-500'>{option.value}</h1>
                 </Button>

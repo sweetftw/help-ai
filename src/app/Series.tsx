@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
-import { Categories } from "./page";
 import { useChat } from 'ai/react';
+import { Categories } from "@/models/models";
 
 const categoriesSeries: Categories[] = [
     { id: "1", value: "Ação" },

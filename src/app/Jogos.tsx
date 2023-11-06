@@ -1,8 +1,8 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
+import { Categories } from "@/models/models";
 import { useState } from "react";
-import { Categories } from "./page";
 
 const categoriesJogos: Categories[] = [
     { id: "1", value: "Ação" },

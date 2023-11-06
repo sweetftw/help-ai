@@ -1,8 +1,8 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
+import { Categories } from "@/models/models";
 import { useState } from "react";
-import { Categories } from "./page";
 
 const categoriesMusicas: Categories[] = [
     { id: "1", value: "Pop" },
