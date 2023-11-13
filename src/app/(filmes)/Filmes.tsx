@@ -3,8 +3,17 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useChat } from "ai/react";
-import { Armchair, Beer, CloudLightning, SunMoon, Tv, X } from "lucide-react";
-import { Categories, Types } from "@/models/models";
+import {
+  Armchair,
+  Beer,
+  Bot,
+  CloudLightning,
+  RefreshCw,
+  SunMoon,
+  Tv,
+  X,
+} from "lucide-react";
+import { Categories, Platform, Types } from "@/models/models";
 import Image from "next/image";
 
 const categoriesFilme: Categories[] = [
@@ -29,128 +38,85 @@ const typesFilme: Types[] = [
   {
     id: "1",
     icon: <Armchair className="w-36 h-36" strokeWidth={1.5} />,
-    value: "Família",
+    label: "Família",
+    value: "assistir com a família",
   },
   {
     id: "2",
     icon: <Beer className="w-36 h-36" strokeWidth={1.5} />,
-    value: "Sexta-feira a noite",
+    label: "Sexta-feira a noite",
+    value: "assistir sexta-feira a noite",
   },
   {
     id: "3",
     icon: <SunMoon className="w-36 h-36" strokeWidth={1.5} />,
-    value: "Fim de tarde",
+    label: "Fim de tarde",
+    value: "assistir fim de tarde",
   },
   {
     id: "4",
     icon: <CloudLightning className="w-36 h-36" strokeWidth={1.5} />,
-    value: "Chuva e sofá",
+    label: "Chuva e sofá",
+    value: "assistir com o tempo chuvoso",
   },
   {
     id: "5",
     icon: <Tv className="w-36 h-36" strokeWidth={1.5} />,
-    value: "Hoje é maratona",
+    label: "Hoje é maratona",
+    value: "maratonar",
   },
 ];
 
-const platformFilme: Types[] = [
+const platformFilme: Platform[] = [
   {
     id: "1",
-    icon: (
-      <img
-        src="/platforms/netflix.svg"
-        width={100}
-        alt="Platform Image"
-      />
-    ),
+    icon: <img src="/platforms/netflix.svg" width={100} alt="Platform Image" />,
     value: "Netflix",
   },
   {
     id: "2",
-    icon: (
-      <img
-        src="/platforms/prime.svg"
-        width={100}
-        alt="Platform Image"
-      />
-    ),
+    icon: <img src="/platforms/prime.svg" width={100} alt="Platform Image" />,
     value: "Amazon Prime",
   },
   {
     id: "3",
-    icon: (
-      <img
-        src="/platforms/disney.svg"
-        width={100}
-        alt="Platform Image"
-      />
-    ),
+    icon: <img src="/platforms/disney.svg" width={100} alt="Platform Image" />,
     value: "Disney+",
   },
   {
     id: "4",
     icon: (
-      <img
-        src="/platforms/globoplay.svg"
-        width={100}
-        alt="Platform Image"
-      />
+      <img src="/platforms/globoplay.svg" width={100} alt="Platform Image" />
     ),
     value: "Globoplay",
   },
   {
     id: "5",
     icon: (
-      <img
-        src="/platforms/telecine.svg"
-        width={100}
-        alt="Platform Image"
-      />
+      <img src="/platforms/telecine.svg" width={100} alt="Platform Image" />
     ),
     value: "Telecine",
   },
   {
     id: "6",
-    icon: (
-      <img
-        src="/platforms/hbo.svg"
-        width={100}
-        alt="Platform Image"
-      />
-    ),
+    icon: <img src="/platforms/hbo.svg" width={100} alt="Platform Image" />,
     value: "HBO Max",
   },
   {
     id: "7",
-    icon: (
-      <img
-        src="/platforms/appletv.svg"
-        width={100}
-        alt="Platform Image"
-      />
-    ),
+    icon: <img src="/platforms/appletv.svg" width={100} alt="Platform Image" />,
     value: "Apple TV+",
   },
   {
     id: "8",
     icon: (
-      <img
-        src="/platforms/paramount.svg"
-        width={100}
-        alt="Platform Image"
-      />
+      <img src="/platforms/paramount.svg" width={100} alt="Platform Image" />
     ),
     value: "Paramount+",
   },
   {
     id: "9",
-    icon: (
-      <img
-        src="/platforms/looke.svg"
-        width={100}
-        alt="Platform Image"
-      />
-    ),
+    icon: <img src="/platforms/looke.svg" width={100} alt="Platform Image" />,
     value: "Looke",
   },
   {
@@ -163,12 +129,12 @@ const platformFilme: Types[] = [
 export default function Filmes() {
   const [category, setCategory] = useState<string[]>([]);
   const [type, setType] = useState<string>("");
-  const [responseAi, setResponseAi] = useState<string>();
+  const [platform, setPlatform] = useState<string>("");
+  const [responseAi, setResponseAi] = useState<string[]>([]);
   const [isSeletedCategory, setisSeletedCategory] = useState(false);
   const [isSeletedType, setIsSeletedType] = useState(false);
-  const [isDone, setisDone] = useState(false);
-
-  const { messages } = useChat();
+  const [isSeletedPlatform, setIsSeletedPlatform] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   function selectedCategories(value: string) {
     if (!category.includes(value)) {
@@ -187,16 +153,25 @@ export default function Filmes() {
     setIsSeletedType(true);
   }
 
-  async function handleSubmit() {
-    //setisSeletedCategory(true);
-    const bodyReq = JSON.stringify({ category: category });
+  async function handleSubmit(platform: string) {
+    setIsSeletedPlatform(true);
+    setPlatform(platform);
+    const bodyReq = JSON.stringify({
+      category: category,
+      type: type,
+      platform: platform,
+    });
 
     const res = await fetch("http://localhost:3000/api/filmes", {
       method: "POST",
       body: bodyReq,
     });
     const response = await res.json();
-    setResponseAi(response.data);
+
+    const list = response.data.split("\n");
+
+    setResponseAi(list);
+    setIsDone(true);
   }
 
   return (
@@ -258,41 +233,56 @@ export default function Filmes() {
                   onClick={() => selectedType(option.value)}
                 >
                   {option.icon}
-                  <h1 className="text-lg text-slate-500">{option.value}</h1>
+                  <h1 className="text-lg text-slate-500">{option.label}</h1>
                 </Button>
-              )
+              );
+            })}
+          </div>
+        </div>
+      ) : !isSeletedPlatform ? (
+        <div className="flex flex-col justify-center items-center gap-10">
+          <div>
+            <h1 className="font-bold text-3xl text-red-400">
+              Onde deseja assistir?
+            </h1>
+          </div>
+          <div className="grid grid-cols-5 gap-4">
+            {platformFilme.map((option) => {
+              return (
+                <Button
+                  variant="outline"
+                  className="w-40 h-20 flex flex-col justify-center items-center gap-3"
+                  key={option.id}
+                  onClick={() => handleSubmit(option.value)}
+                >
+                  {option.icon}
+                </Button>
+              );
             })}
           </div>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center gap-10">
         <div>
-          <h1 className="font-bold text-3xl text-red-400">
-            Onde deseja assistir?
-          </h1>
+          {!isDone ? (
+            <div>
+              <RefreshCw className="animate-spin" />
+            </div>
+          ) : (
+            <div className="flex flex-row justify-center items-start gap-20">
+              <div className="flex flex-col justify-center items-center">
+                <Bot size={120} className="animate-bounce" />
+                <p>Aqui está nossa recomendação</p>
+              </div>
+
+            <div className="text-center">
+              {responseAi.map((option) => {
+                return <h1 className="text-lg mb-2">{option}</h1>;
+              })}
+            </div>
+              </div>
+          )}
         </div>
-        <div className="grid grid-cols-5 gap-4">
-          {platformFilme.map((option) => {
-            return (
-              <Button
-                variant="outline"
-                className="w-40 h-20 flex flex-col justify-center items-center gap-3"
-                key={option.id}
-                onClick={() => selectedType(option.value)}
-              >
-                {option.icon}
-              </Button>
-            )
-          })}
-        </div>
-      </div>
       )}
     </>
   );
-}
-
-{
-  /* <div>
-            <p>{responseAi}</p>
-        </div> */
 }

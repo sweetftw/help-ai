@@ -5,4 +5,6 @@ export type Categories = {
 
 export type CategoriesMenu = Categories & { icon: JSX.Element };
 
-export type Types = CategoriesMenu;
+export type Types = CategoriesMenu & { label: string };
+
+export type Platform = CategoriesMenu;

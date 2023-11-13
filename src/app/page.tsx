@@ -38,8 +38,6 @@ export default function Home() {
 
   const [category, setCategory] = useState('');
 
-  console.log(category)
-
   return (
     <main className="flex min-h-screen flex-col gap-16 py-12 mx-64">
       <header className='flex flex-col justify-center items-start gap-5'>
