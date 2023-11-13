@@ -162,7 +162,7 @@ export default function Filmes() {
       platform: platform,
     });
 
-    const res = await fetch(`${window.location.href}/api/filmes`, {
+    const res = await fetch(`${window.location.href}:3000/api/filmes`, {
       method: "POST",
       body: bodyReq,
     });
