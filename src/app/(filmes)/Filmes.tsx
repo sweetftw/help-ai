@@ -162,11 +162,12 @@ export default function Filmes() {
       platform: platform,
     });
 
-    const res = await fetch(`${window.location.href}api/filmes`, {
+    const res = await fetch(`https://help-ai.vercel.app/api/filmes`, {
       method: "POST",
-      body: bodyReq,
+      body: bodyReq
     });
     const response = await res.json();
+
 
     const list = response.data.split("\n");
 
