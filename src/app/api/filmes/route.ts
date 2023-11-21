@@ -1,6 +1,10 @@
 //import { OpenAICompletion } from "@/service/openai";
 import OpenAI from "openai";
 
+export const config = {
+  runtime: 'edge',
+}
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
