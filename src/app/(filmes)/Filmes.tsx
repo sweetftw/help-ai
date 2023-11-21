@@ -162,6 +162,8 @@ export default function Filmes() {
       platform: platform,
     });
 
+    console.log('chamou')
+
     //const res = await fetch(`http://localhost:3000/api/filmes`, {
     const res = await fetch(`https://help-ai.vercel.app/api/filmes`, {
       method: "POST",
