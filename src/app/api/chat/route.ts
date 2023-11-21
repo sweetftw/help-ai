@@ -1,8 +1,5 @@
 import OpenAI from "openai";
 
-export const maxDuration = 60;
-export const dynamic = 'force-dynamic';
-
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
