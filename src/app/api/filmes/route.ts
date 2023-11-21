@@ -1,6 +1,6 @@
 import { OpenAICompletion } from "@/service/openai";
 
-const scriptResearchFilmes = "Não gostei dessas opções, me de outras 10 opções";
+//const scriptResearchFilmes = "Não gostei dessas opções, me de outras 10 opções";
 
 export async function POST(req: Request) {
   const { category, type, platform } = await req.json();
