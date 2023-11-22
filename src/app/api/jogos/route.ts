@@ -1,21 +1,31 @@
-const scriptJogos = 'Gostaria de uma recomendação de 10 jogos aclamados pelas criticas com as seguintes categorias: '
-const scriptResearchJogos = 'Não gostei dessas opções, me de outras 10 opções'
+//import { OpenAICompletion } from "@/service/openai";
+import OpenAI from "openai";
+
+export const runtime = "edge"
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+//const scriptResearchFilmes = "Não gostei dessas opções, me de outras 10 opções";
 
 export async function POST(req: Request) {
-    const { category } = await req.json();
+  const { category, type, platform } = await req.json();
 
-    const messageReq = scriptJogos + category.toString()
+  const scriptJogos = `Gostaria de uma recomendação de 10 jogos aclamados pelas criticas nos gêneros ${category.toString()} para ${type} na plataforma ${platform},
+  me de a resposta em apenas a lista em texto`;
 
-    console.log(messageReq)
-    
-    const res = await fetch('http://localhost:3000/api/chat', {
-            method: 'POST',
-            body: JSON.stringify({ messages: messageReq})
-        })
+  const response = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    stream: false,
+    messages: [
+      {
+        role: "user",
+        content: scriptJogos,
+      },
+    ],
+  });
+  console.log(response.choices[0].message.content);
 
-    const response = await res.json()
-    console.log(response)
-
-
-    return Response.json({ data: null })
+  return Response.json({ data: response.choices[0].message.content });
 }

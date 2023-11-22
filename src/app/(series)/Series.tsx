@@ -2,6 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useChat } from "ai/react";
+import { Categories, Platform, Types } from "@/models/models";
 import {
   Armchair,
   Beer,
@@ -12,28 +14,26 @@ import {
   Tv,
   X,
 } from "lucide-react";
-import { Categories, Platform, Types } from "@/models/models";
-import Image from "next/image";
 
-const categoriesFilme: Categories[] = [
+const categoriesSeries: Categories[] = [
   { id: "1", value: "Ação" },
   { id: "2", value: "Aventura" },
   { id: "3", value: "Animação" },
   { id: "4", value: "Comédia" },
-  { id: "5", value: "Comédia Romântica" },
-  { id: "6", value: "Drama" },
-  { id: "7", value: "Suspense" },
-  { id: "8", value: "Ficção Científica" },
-  { id: "9", value: "Fantasia" },
-  { id: "10", value: "Terror" },
-  { id: "11", value: "Romance" },
-  { id: "12", value: "Mistério" },
-  { id: "13", value: "Crime" },
-  { id: "14", value: "Biografia" },
-  { id: "15", value: "História" },
+  { id: "5", value: "Drama" },
+  { id: "6", value: "Suspense" },
+  { id: "7", value: "Ficção Científica" },
+  { id: "8", value: "Fantasia" },
+  { id: "9", value: "Terror" },
+  { id: "10", value: "Policial" },
+  { id: "11", value: "Médica" },
+  { id: "12", value: "Comédia Romântica" },
+  { id: "13", value: "Reality Show" },
+  { id: "14", value: "Histórica" },
+  { id: "15", value: "Super-heróis" },
 ];
 
-const typesFilme: Types[] = [
+const typesSeries: Types[] = [
   {
     id: "1",
     icon: <Armchair className="w-36 h-36" strokeWidth={1.5} />,
@@ -92,9 +92,9 @@ const platformFilme: Platform[] = [
   {
     id: "5",
     icon: (
-      <img src="/platforms/telecine.svg" width={100} alt="Platform Image" />
+      <img src="/platforms/crunchyroll.svg" width={100} alt="Platform Image" />
     ),
-    value: "Telecine",
+    value: "Crunchyroll",
   },
   {
     id: "6",
@@ -125,7 +125,7 @@ const platformFilme: Platform[] = [
   },
 ];
 
-export default function Filmes() {
+export default function Series() {
   const [category, setCategory] = useState<string[]>([]);
   const [type, setType] = useState<string>("");
   const [platform, setPlatform] = useState<string>("");
@@ -161,8 +161,8 @@ export default function Filmes() {
       platform: platform,
     });
 
-    //const res = await fetch(`http://localhost:3000/api/filmes`, {
-    const res = await fetch(`https://help-ai.vercel.app/api/filmes`, {
+    //const res = await fetch(`http://localhost:3000/api/series`, {
+    const res = await fetch(`https://help-ai.vercel.app/api/series`, {
       method: "POST",
       body: bodyReq,
     });
@@ -180,12 +180,12 @@ export default function Filmes() {
         <div className="flex flex-col justify-center items-center gap-5">
           <div>
             <h1 className="font-bold text-3xl text-red-400">
-              Quais categorias de filmes você gostaria de ver hoje?
+              Quais categorias de série você gostaria de ver hoje?
             </h1>
             <p className="text-slate-500">(Até 3 categorias)</p>
           </div>
           <div className="grid grid-cols-3 gap-4">
-            {categoriesFilme.map((option) => {
+            {categoriesSeries.map((option) => {
               return (
                 <Button
                   variant="outline"
@@ -220,11 +220,11 @@ export default function Filmes() {
         <div className="flex flex-col justify-center items-center gap-10">
           <div>
             <h1 className="font-bold text-3xl text-red-400">
-              Qual tipo de filme está a fim hoje?
+              Qual tipo de serie está a fim hoje?
             </h1>
           </div>
           <div className="flex justify-start items-center gap-4">
-            {typesFilme.map((option) => {
+            {typesSeries.map((option) => {
               return (
                 <Button
                   variant="outline"

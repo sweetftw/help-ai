@@ -1,131 +1,108 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Categories, Platform, Types } from "@/models/models";
 import { useState } from "react";
 import {
   Armchair,
   Beer,
   Bot,
   CloudLightning,
+  Frown,
+  Gamepad,
+  Gamepad2,
+  LandPlot,
+  Mountain,
   RefreshCw,
   SunMoon,
+  Swords,
+  Trophy,
   Tv,
   X,
 } from "lucide-react";
-import { Categories, Platform, Types } from "@/models/models";
-import Image from "next/image";
 
-const categoriesFilme: Categories[] = [
+const categoriesJogos: Categories[] = [
   { id: "1", value: "Ação" },
   { id: "2", value: "Aventura" },
-  { id: "3", value: "Animação" },
-  { id: "4", value: "Comédia" },
-  { id: "5", value: "Comédia Romântica" },
-  { id: "6", value: "Drama" },
-  { id: "7", value: "Suspense" },
-  { id: "8", value: "Ficção Científica" },
-  { id: "9", value: "Fantasia" },
-  { id: "10", value: "Terror" },
-  { id: "11", value: "Romance" },
-  { id: "12", value: "Mistério" },
-  { id: "13", value: "Crime" },
-  { id: "14", value: "Biografia" },
-  { id: "15", value: "História" },
+  { id: "3", value: "RPG (Role-Playing Game)" },
+  { id: "4", value: "Tiro em Primeira Pessoa (FPS)" },
+  { id: "5", value: "Tiro em Terceira Pessoa" },
+  { id: "6", value: "Esportes" },
+  { id: "7", value: "Corrida" },
+  { id: "8", value: "Estratégia em Tempo Real (RTS)" },
+  { id: "9", value: "Estratégia por Turnos" },
+  { id: "10", value: "Simulação" },
+  { id: "11", value: "Quebra-cabeças" },
+  { id: "12", value: "Jogos de Cartas" },
+  { id: "13", value: "Jogos de Tabuleiro" },
+  { id: "14", value: "Mundo Aberto" },
+  { id: "15", value: "Horror de Sobrevivência" },
 ];
 
-const typesFilme: Types[] = [
+const typesJogos: Types[] = [
   {
     id: "1",
-    icon: <Armchair className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Família",
-    value: "assistir com a família",
+    icon: <Gamepad2 className="w-36 h-36" strokeWidth={1.5} />,
+    label: "Quero quebrar meu controle",
+    value: "desestressar porem com muita acao",
   },
   {
     id: "2",
-    icon: <Beer className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Sexta-feira a noite",
-    value: "assistir sexta-feira a noite",
+    icon: <LandPlot className="w-36 h-36" strokeWidth={1.5} />,
+    label: "Apenas quero relaxar",
+    value: "relaxar",
   },
   {
     id: "3",
-    icon: <SunMoon className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Fim de tarde",
-    value: "assistir fim de tarde",
+    icon: <Swords className="w-36 h-36" strokeWidth={1.5} />,
+    label: "Último heroi da terra",
+    value: "jogar um pvp de acao",
   },
   {
     id: "4",
-    icon: <CloudLightning className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Chuva e sofá",
-    value: "assistir com o tempo chuvoso",
+    icon: <Mountain className="w-36 h-36" strokeWidth={1.5} />,
+    label: "Explorador dos 4 cantos",
+    value: "explorar",
   },
   {
     id: "5",
-    icon: <Tv className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Hoje é maratona",
-    value: "maratonar",
+    icon: <Trophy className="w-36 h-36" strokeWidth={1.5} />,
+    label: "O Squad ta on",
+    value: "jogar com os amigos",
   },
 ];
 
-const platformFilme: Platform[] = [
+const platformJogos: Platform[] = [
   {
     id: "1",
-    icon: <img src="/platforms/netflix.svg" width={100} alt="Platform Image" />,
-    value: "Netflix",
+    icon: <img src="/platforms/xbox.svg" width={100} alt="Platform Image" />,
+    value: "Xbox",
   },
   {
     id: "2",
-    icon: <img src="/platforms/prime.svg" width={100} alt="Platform Image" />,
-    value: "Amazon Prime",
+    icon: <img src="/platforms/playstation.svg" width={100} alt="Platform Image" />,
+    value: "PlayStation",
   },
   {
     id: "3",
-    icon: <img src="/platforms/disney.svg" width={100} alt="Platform Image" />,
-    value: "Disney+",
+    icon: <img src="/platforms/nintendo.svg" width={100} alt="Platform Image" />,
+    value: "Nintendo",
   },
   {
     id: "4",
     icon: (
-      <img src="/platforms/globoplay.svg" width={100} alt="Platform Image" />
+      <img src="/platforms/pc-master-race.svg" width={100} alt="Platform Image" />
     ),
-    value: "Globoplay",
+    value: "PC",
   },
   {
     id: "5",
-    icon: (
-      <img src="/platforms/telecine.svg" width={100} alt="Platform Image" />
-    ),
-    value: "Telecine",
-  },
-  {
-    id: "6",
-    icon: <img src="/platforms/hbo.svg" width={100} alt="Platform Image" />,
-    value: "HBO Max",
-  },
-  {
-    id: "7",
-    icon: <img src="/platforms/appletv.svg" width={100} alt="Platform Image" />,
-    value: "Apple TV+",
-  },
-  {
-    id: "8",
-    icon: (
-      <img src="/platforms/paramount.svg" width={100} alt="Platform Image" />
-    ),
-    value: "Paramount+",
-  },
-  {
-    id: "9",
-    icon: <img src="/platforms/looke.svg" width={100} alt="Platform Image" />,
-    value: "Looke",
-  },
-  {
-    id: "10",
     icon: <h2 className="text-slate-500">Qualquer plataforma</h2>,
     value: "Qualquer plataforma",
   },
 ];
 
-export default function Filmes() {
+export default function Jogos() {
   const [category, setCategory] = useState<string[]>([]);
   const [type, setType] = useState<string>("");
   const [platform, setPlatform] = useState<string>("");
@@ -161,8 +138,8 @@ export default function Filmes() {
       platform: platform,
     });
 
-    //const res = await fetch(`http://localhost:3000/api/filmes`, {
-    const res = await fetch(`https://help-ai.vercel.app/api/filmes`, {
+    //const res = await fetch(`http://localhost:3000/api/jogos`, {
+    const res = await fetch(`https://help-ai.vercel.app/api/jogos`, {
       method: "POST",
       body: bodyReq,
     });
@@ -180,12 +157,12 @@ export default function Filmes() {
         <div className="flex flex-col justify-center items-center gap-5">
           <div>
             <h1 className="font-bold text-3xl text-red-400">
-              Quais categorias de filmes você gostaria de ver hoje?
+              Qual gênero de jogo está afim hoje?
             </h1>
             <p className="text-slate-500">(Até 3 categorias)</p>
           </div>
           <div className="grid grid-cols-3 gap-4">
-            {categoriesFilme.map((option) => {
+            {categoriesJogos.map((option) => {
               return (
                 <Button
                   variant="outline"
@@ -220,11 +197,11 @@ export default function Filmes() {
         <div className="flex flex-col justify-center items-center gap-10">
           <div>
             <h1 className="font-bold text-3xl text-red-400">
-              Qual tipo de filme está a fim hoje?
+              Qual seu humor hoje?
             </h1>
           </div>
           <div className="flex justify-start items-center gap-4">
-            {typesFilme.map((option) => {
+            {typesJogos.map((option) => {
               return (
                 <Button
                   variant="outline"
@@ -247,7 +224,7 @@ export default function Filmes() {
             </h1>
           </div>
           <div className="grid grid-cols-5 gap-4">
-            {platformFilme.map((option) => {
+            {platformJogos.map((option) => {
               return (
                 <Button
                   variant="outline"

@@ -1,131 +1,105 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Categories, Platform, Types } from "@/models/models";
 import { useState } from "react";
 import {
   Armchair,
+  Bed,
   Beer,
   Bot,
   CloudLightning,
+  Frown,
+  HandMetal,
   RefreshCw,
+  Snail,
   SunMoon,
   Tv,
   X,
 } from "lucide-react";
-import { Categories, Platform, Types } from "@/models/models";
-import Image from "next/image";
 
-const categoriesFilme: Categories[] = [
-  { id: "1", value: "Ação" },
-  { id: "2", value: "Aventura" },
-  { id: "3", value: "Animação" },
-  { id: "4", value: "Comédia" },
-  { id: "5", value: "Comédia Romântica" },
-  { id: "6", value: "Drama" },
-  { id: "7", value: "Suspense" },
-  { id: "8", value: "Ficção Científica" },
-  { id: "9", value: "Fantasia" },
-  { id: "10", value: "Terror" },
-  { id: "11", value: "Romance" },
-  { id: "12", value: "Mistério" },
-  { id: "13", value: "Crime" },
-  { id: "14", value: "Biografia" },
-  { id: "15", value: "História" },
+const categoriesMusicas: Categories[] = [
+  { id: "1", value: "Pop" },
+  { id: "2", value: "Rock" },
+  { id: "3", value: "Hip-Hop/Rap" },
+  { id: "4", value: "Eletrônica" },
+  { id: "5", value: "Country" },
+  { id: "6", value: "R&B" },
+  { id: "7", value: "Reggae" },
+  { id: "8", value: "Jazz" },
+  { id: "9", value: "Clássica" },
+  { id: "10", value: "Sertanejo" },
+  { id: "11", value: "Funk" },
+  { id: "12", value: "Metal" },
+  { id: "13", value: "Indie" },
+  { id: "14", value: "Soul" },
+  { id: "15", value: "Blues" },
 ];
 
-const typesFilme: Types[] = [
+const typesMusicas: Types[] = [
   {
     id: "1",
-    icon: <Armchair className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Família",
-    value: "assistir com a família",
+    icon: <Frown className="w-36 h-36" strokeWidth={1.5} />,
+    label: "Quero chorar",
+    value: "chorar",
   },
   {
     id: "2",
     icon: <Beer className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Sexta-feira a noite",
-    value: "assistir sexta-feira a noite",
+    label: "Hoje é sexta",
+    value: "comemorar",
   },
   {
     id: "3",
-    icon: <SunMoon className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Fim de tarde",
-    value: "assistir fim de tarde",
+    icon: <HandMetal className="w-36 h-36" strokeWidth={1.5} />,
+    label: "Acho que vou pedir demissão",
+    value: "escutar e me sentir empoderada",
   },
   {
     id: "4",
-    icon: <CloudLightning className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Chuva e sofá",
-    value: "assistir com o tempo chuvoso",
+    icon: <Snail className="w-36 h-36" strokeWidth={1.5} />,
+    label: "Pleníssimo",
+    value: "ficar calmo",
   },
   {
     id: "5",
-    icon: <Tv className="w-36 h-36" strokeWidth={1.5} />,
-    label: "Hoje é maratona",
-    value: "maratonar",
+    icon: <Bed className="w-36 h-36" strokeWidth={1.5} />,
+    label: "Aquela soneca",
+    value: "dormir",
   },
 ];
 
-const platformFilme: Platform[] = [
+const platformMusicas: Platform[] = [
   {
     id: "1",
-    icon: <img src="/platforms/netflix.svg" width={100} alt="Platform Image" />,
-    value: "Netflix",
+    icon: <img src="/platforms/spotify.svg" width={100} alt="Platform Image" />,
+    value: "Spotify",
   },
   {
     id: "2",
-    icon: <img src="/platforms/prime.svg" width={100} alt="Platform Image" />,
-    value: "Amazon Prime",
+    icon: <img src="/platforms/youtube-music.svg" width={100} alt="Platform Image" />,
+    value: "Youtube Music",
   },
   {
     id: "3",
-    icon: <img src="/platforms/disney.svg" width={100} alt="Platform Image" />,
-    value: "Disney+",
+    icon: <img src="/platforms/amazon-music.svg" width={100} alt="Platform Image" />,
+    value: "Amazon Music",
   },
   {
     id: "4",
     icon: (
-      <img src="/platforms/globoplay.svg" width={100} alt="Platform Image" />
+      <img src="/platforms/deezer.svg" width={100} alt="Platform Image" />
     ),
-    value: "Globoplay",
+    value: "Deezer",
   },
   {
     id: "5",
-    icon: (
-      <img src="/platforms/telecine.svg" width={100} alt="Platform Image" />
-    ),
-    value: "Telecine",
-  },
-  {
-    id: "6",
-    icon: <img src="/platforms/hbo.svg" width={100} alt="Platform Image" />,
-    value: "HBO Max",
-  },
-  {
-    id: "7",
-    icon: <img src="/platforms/appletv.svg" width={100} alt="Platform Image" />,
-    value: "Apple TV+",
-  },
-  {
-    id: "8",
-    icon: (
-      <img src="/platforms/paramount.svg" width={100} alt="Platform Image" />
-    ),
-    value: "Paramount+",
-  },
-  {
-    id: "9",
-    icon: <img src="/platforms/looke.svg" width={100} alt="Platform Image" />,
-    value: "Looke",
-  },
-  {
-    id: "10",
     icon: <h2 className="text-slate-500">Qualquer plataforma</h2>,
     value: "Qualquer plataforma",
   },
 ];
 
-export default function Filmes() {
+export default function Musicas() {
   const [category, setCategory] = useState<string[]>([]);
   const [type, setType] = useState<string>("");
   const [platform, setPlatform] = useState<string>("");
@@ -161,8 +135,8 @@ export default function Filmes() {
       platform: platform,
     });
 
-    //const res = await fetch(`http://localhost:3000/api/filmes`, {
-    const res = await fetch(`https://help-ai.vercel.app/api/filmes`, {
+    //const res = await fetch(`http://localhost:3000/api/musicas`, {
+    const res = await fetch(`https://help-ai.vercel.app/api/musicas`, {
       method: "POST",
       body: bodyReq,
     });
@@ -180,12 +154,12 @@ export default function Filmes() {
         <div className="flex flex-col justify-center items-center gap-5">
           <div>
             <h1 className="font-bold text-3xl text-red-400">
-              Quais categorias de filmes você gostaria de ver hoje?
+              Quais gênero está mais afim de curtir hoje?
             </h1>
             <p className="text-slate-500">(Até 3 categorias)</p>
           </div>
           <div className="grid grid-cols-3 gap-4">
-            {categoriesFilme.map((option) => {
+            {categoriesMusicas.map((option) => {
               return (
                 <Button
                   variant="outline"
@@ -220,11 +194,11 @@ export default function Filmes() {
         <div className="flex flex-col justify-center items-center gap-10">
           <div>
             <h1 className="font-bold text-3xl text-red-400">
-              Qual tipo de filme está a fim hoje?
+              Qual seu humor hoje?
             </h1>
           </div>
           <div className="flex justify-start items-center gap-4">
-            {typesFilme.map((option) => {
+            {typesMusicas.map((option) => {
               return (
                 <Button
                   variant="outline"
@@ -243,11 +217,11 @@ export default function Filmes() {
         <div className="flex flex-col justify-center items-center gap-10">
           <div>
             <h1 className="font-bold text-3xl text-red-400">
-              Onde deseja assistir?
+              Onde deseja escutar?
             </h1>
           </div>
           <div className="grid grid-cols-5 gap-4">
-            {platformFilme.map((option) => {
+            {platformMusicas.map((option) => {
               return (
                 <Button
                   variant="outline"

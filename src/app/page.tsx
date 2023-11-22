@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Popcorn, Gamepad2, Music, Clapperboard, Bot, RotateCcw } from 'lucide-react';
 import { useState } from "react";
 import Filmes from "./(filmes)/Filmes";
-import Series from "./Series";
-import Musicas from "./Musicas";
-import Jogos from "./Jogos";
+import Series from "./(series)/Series";
+import Musicas from "./(musicas)/Musicas";
+import Jogos from "./(jogos)/Jogos";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { CategoriesMenu } from "@/models/models";
 
